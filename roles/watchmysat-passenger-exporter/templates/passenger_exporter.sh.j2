@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export PATH="/bin:/sbin:/usr/bin:/usr/sbin"
+
+# run command 1 time per execution
+OUTPUT=$(passenger-status)
+
+## results
+passenger_max_pool_size=$(passenger-status | grep "^Max pool size" | awk -F': ' '{print $2 }')
+echo "# HELP passenger_max_pool_size Max pool size (*)"
+echo "# TYPE passenger_max_pool_size counter"
+echo "passenger_max_pool_size $passenger_max_pool_size"
+
+passenger_current_processes=$(passenger-status| grep "^Processes" | awk -F': ' '{print $2 }')
+echo "# HELP passenger_current_processes Current Passenger processes (*)"
+echo "# TYPE passenger_current_processes counter"
+echo passenger_current_processes $passenger_current_processes
